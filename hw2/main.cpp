@@ -5,7 +5,7 @@
 #include "sorts.h"
 #include "makeArr.h"
 
-#define SIZE 1000
+#define SIZE 10000
 
 float CheckTime_selectionSort(int A[], int n){
     clock_t start, end;
@@ -84,6 +84,13 @@ void rankSort(float s, float b, float q, float h){
     return;
 }
 
+void writeFile(float s, float b, float q, float h){
+    FILE *fp = fopen("sort.txt", "a");
+    fprintf(fp, "%d %f %f %f %f\n", SIZE, s, q, b, h);
+    fclose(fp);
+    return;
+}
+
 
 int main(){
     float s = 0, b = 0, q = 0, h =0;
@@ -111,6 +118,7 @@ int main(){
     printf("[heap Sort : %fs]\n", h/5);
 
     rankSort(s/5, b/5, q/5, h/5);
+    writeFile(s/5, b/5, q/5, h/5);
 
     return 0;
 }
