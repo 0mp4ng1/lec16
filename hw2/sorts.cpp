@@ -30,6 +30,7 @@ void selectionSort(int A[], int n){
 }
 
 //quickSort
+/*
 int partition(int A[], int p, int r){
     int a=0, temp;
     for (int i=0;i<r;i++){
@@ -40,7 +41,6 @@ int partition(int A[], int p, int r){
     }
     swap(A,a,r);
     return a;
-
 }
 
 void quickSort(int A[], int p, int r)
@@ -52,6 +52,35 @@ void quickSort(int A[], int p, int r)
     }
     return;
 }
+*/
+
+
+//quickSort
+void quickSort(int A[], int l, int r) {
+      int i = l, j = r;
+      int p = A[(l + r) / 2];
+      do
+      {
+        while (A[i] < p)
+            i++;
+        while (A[j] > p)
+            j--;
+        if (i<= j)
+        {
+            swap(A,i,j);
+            i++;
+            j--;
+        }
+      } while (i<= j);
+
+    /* recursion */
+    if (l < j)
+        quickSort(A, l, j);
+
+    if (i < r)
+        quickSort(A, i, r);
+}
+
 
 //insertionSort
 void insertionSort(int A[], int n){

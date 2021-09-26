@@ -5,12 +5,11 @@
 #include "sorts.h"
 #include "makeArr.h"
 
-#define SIZE 10000
+#define SIZE 1000
 
 float CheckTime_selectionSort(int A[], int n){
     clock_t start, end;
     float time;
-
     start = clock();
     selectionSort(A, n);
     end = clock();
@@ -22,7 +21,6 @@ float CheckTime_selectionSort(int A[], int n){
 float CheckTime_bubbleSort(int A[], int n){
     clock_t start, end;
     float time;
-
     start = clock();
     bubbleSort(A, n);
     end = clock();
@@ -34,7 +32,6 @@ float CheckTime_bubbleSort(int A[], int n){
 float CheckTime_quickSort(int A[], int n){
     clock_t start, end;
     float time;
-
     start = clock();
     quickSort(A, 0, n-1);
     end = clock();
@@ -46,7 +43,6 @@ float CheckTime_quickSort(int A[], int n){
 float CheckTime_heapSort(int A[], int n){
     clock_t start, end;
     float time;
-
     start = clock();
     heapSort(A, n);
     end = clock();
