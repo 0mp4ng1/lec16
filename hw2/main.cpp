@@ -5,7 +5,7 @@
 #include "sorts.h"
 #include "makeArr.h"
 
-#define SIZE 1000
+#define SIZE 500000
 
 float CheckTime_selectionSort(int A[], int n){
     clock_t start, end;
