@@ -11,32 +11,32 @@ typedef struct Node{
 
 nodePointer root = NULL;
 
-nodePointer addNode(nodePointer pptr, nodePointer p, int data){
+nodePointer addNode(nodePointer pptr,  int data){
     nodePointer node = (nodePointer)malloc(sizeof(Node));
     node->data = data;
-    node->parent = p;
     node->left = NULL;
     node->right = NULL;
     return node;
 }
 
-nodePointer insert(nodePointer pptr, nodePointer p, int new_data){
+nodePointer insert(nodePointer pptr, int new_data){
     nodePointer last_node = pptr;
-    nodePointer last_node_parent = p;
 
     if(last_node == NULL){
-        last_node = addNode(last_node, last_node_parent, new_data);
+        last_node = addNode(last_node, new_data);
         if(root == NULL) root = last_node;
         return last_node;
     }
 
     if (new_data < last_node->data){
-		last_node->left = insert(last_node->left, last_node, new_data);
+		last_node->left = insert(last_node->left, new_data);
+        last_node->left->parent = last_node;
         return last_node;
     }
     
 	else if (new_data > last_node->data){
-		 last_node->right = insert(last_node->right, last_node, new_data);
+		 last_node->right = insert(last_node->right, new_data);
+         last_node->right->parent = last_node;
          return last_node;
     }
 }
@@ -139,7 +139,7 @@ int main(){
     int data[17] = {55,15,60,8,3,28,18,30,48,38,50,33,32,36,90,16,'\0'};
     int idx = 0;
     while(data[idx] != '\0'){
-        node = insert(root, NULL, data[idx]);
+        node = insert(root, data[idx]);
         idx++;
     }
     print();
