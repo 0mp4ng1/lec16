@@ -33,78 +33,57 @@ nodePointer uncle(nodePointer pptr){
         return gp->left;
 }
 
-nodePointer addNode(nodePointer pptr, nodePointer p, int data){
+nodePointer addNode(nodePointer pptr, int data){
     nodePointer node = (nodePointer)malloc(sizeof(Node));
     node->data = data;
-    node->parent = p;
     node->color = 'r';
     node->left = NULL;
     node->right = NULL;
     return node;
 }
 
-nodePointer checkRB(nodePointer pptr){
+nodePointer leftRot(nodePointer pptr){
     nodePointer x = pptr;
-    nodePointer gp = grandparent(x);
-    nodePointer p = parent(x);
-    nodePointer u = uncle(x);
-    
-    // x: inserted node, p : parent node, u : uncle node
-    // case 0 : x=root
-    if(x==root){
-        x->color = 'b';
-        return x;
-    }
+    nodePointer x1 = x->right;
+	nodePointer x2 = x1->left;
 
-    // case 1 : x=red, p=red, u=red
-    if(p->color == 'r' && u->color == 'r'){
-        p->color = 'b';
-        u-> color = 'b';
-        gp->color = 'r';
-    }
-    // case 2 & 3 : x=red, p=red, u=black
-    else if(p->color == 'r' && u->color == 'b'){
-        //case 2 : zig-zag
-        if (p->right == x){
-            gp->left = x;
-            x->parent = gp;
-
-            p->right = x->left;
-
-            x->left = p;
-            p->parent = x;
-        }
-
-        else if (p->left == x){
-            nodePointer gp = grandparent(x);
-            nodePointer p = parent(x);
-
-            p->right = gp;
-            p->parent = gp->parent;
-            gp->parent = p;
-            gp->color = 'r';
-            p->color = 'b';
-        }
-    }
-    
+	x1->left = x;
+	x->right = x2;
+    x->parent = x1;
+    if(x2!=NULL) x2->parent = x;
+    return x;
 }
 
-nodePointer insert(nodePointer pptr, nodePointer p, int new_data){
+nodePointer rightRot(nodePointer pptr){
+    nodePointer x = pptr;
+    nodePointer x1 = x->left;
+	nodePointer x2 = x1->right;
+
+	x1->right = x;
+	x->left = x2;
+    x->parent = x1;
+    if(x2!=NULL) x2->parent = x;
+    return x;
+}
+
+
+nodePointer insert(nodePointer pptr,int new_data){
     nodePointer last_node = pptr;
-    nodePointer last_node_parent = p;
 
     if(last_node == NULL){
-        last_node = addNode(last_node, last_node_parent, new_data);
+        last_node = addNode(last_node, new_data);
         if(root == NULL) root = last_node;
         return last_node;
     }
 
     if (new_data < last_node->data){
-		last_node->left = insert(last_node->left, last_node, new_data);
+		last_node->left = insert(last_node->left, new_data);
+        last_node->left->parent = last_node;
         return last_node->left;
     }
 	else if (new_data > last_node->data){
-		last_node->right = insert(last_node->right, last_node, new_data);
+		last_node->right = insert(last_node->right,  new_data);
+        last_node->right->parent = last_node;
         return last_node->right;
     }
     else return last_node;
@@ -115,8 +94,7 @@ int main(){
     int data[17] = {55,15,60,8,3,28,18,30,48,38,50,33,32,36,90,16,'\0'};
     int idx = 0;
     while(data[idx] != '\0'){
-        node = insert(root, NULL, data[idx]);
-        checkRB(node);
+        node = insert(root,  data[idx]);
         printf("%c",node->color);
         idx++;
     }
